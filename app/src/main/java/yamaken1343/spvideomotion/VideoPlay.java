@@ -1,12 +1,16 @@
 package yamaken1343.spvideomotion;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 public class VideoPlay extends AppCompatActivity {
+    VideoView videoView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,9 +23,9 @@ public class VideoPlay extends AppCompatActivity {
 
         Intent intent = getIntent();
         String videoFqdn = intent.getStringExtra(MainActivity.VIDEOFQDN);
-
-        TextView mContentView = findViewById(R.id.fullscreen_content);
-        mContentView.setText(videoFqdn);
+        videoView = findViewById(R.id.videoView);
+        videoView.setVideoURI(Uri.parse(videoFqdn));
+        videoView.setMediaController(new MediaController(this));
 
     }
 
