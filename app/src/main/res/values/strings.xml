@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">SPVideoMotion</string>
+
+    <string name="title_activity_video_play">VideoPlay</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="text_name">URL</string>
+    <string name="button_name">START</string>
+    <string name="default_url">http://192.168.0.148/video/</string>
+
+    <string-array name="select_id">
+        <item>01.mp4</item>
+        <item>02.mp4</item>
+        <item>03.mp4</item>
+        <item>04.mp4</item>
+        <item>05.mp4</item>
+        <item>06.mp4</item>
+        <item>07.mp4</item>
+        <item>08.mp4</item>
+        <item>09.mp4</item>
+        <item>10.mp4</item>
+        <item>11.mp4</item>
+        <item>12.mp4</item>
+        <item>13.mp4</item>
+        <item>14.mp4</item>
+        <item>15.mp4</item>
+    </string-array>
+</resources>
