@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -37,6 +38,8 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
     private String fullFilepath;
     BufferedWriter bw;
     FileOutputStream fos;
+
+    int isTouch;
 
 
     @Override
@@ -96,9 +99,9 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
         } else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
             gyroValue = event.values.clone();
         }
-        if (fileOpened) {
+        if (fileOpened) {  // TODO: ビデオ再生したら開始
             try {
-                bw.write(String.format(Locale.ENGLISH,"%f, %f, %f, %f, %f, %f\n", accValue[0], accValue[1], accValue[2], gyroValue[0], gyroValue[1], gyroValue[2]));
+                bw.write(String.format(Locale.ENGLISH, "%d, %f, %f, %f, %f, %f, %f, %d\n", System.currentTimeMillis(), accValue[0], accValue[1], accValue[2], gyroValue[0], gyroValue[1], gyroValue[2], isTouch));
                 bw.flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -132,4 +135,18 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
         fileOpened = false;
         videoView.stopPlayback();
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                isTouch = 1;
+                break;
+            case MotionEvent.ACTION_UP:
+                isTouch = 0;
+                break;
+        }
+        return true;
+    }
+
 }
