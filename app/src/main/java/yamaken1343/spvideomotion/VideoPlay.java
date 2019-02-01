@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -53,6 +54,20 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
         videoView = findViewById(R.id.videoView);
         videoView.setVideoURI(Uri.parse(videoFqdn));
         videoView.setMediaController(new MediaController(this));
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                finish();
+            }
+        });
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                videoView.seekTo(0);
+                videoView.start();
+            }
+        });
 
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -115,5 +130,6 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
             }
         }
         fileOpened = false;
+        videoView.stopPlayback();
     }
 }
