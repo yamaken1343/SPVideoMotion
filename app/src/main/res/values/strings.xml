@@ -7,6 +7,7 @@
     <string name="text_name">URL</string>
     <string name="button_name">START</string>
     <string name="default_url">http://192.168.0.125/video/</string>
+    <string name="user_name">your_name</string>
 
     <string-array name="select_id">
         <item>01.mp4</item>
