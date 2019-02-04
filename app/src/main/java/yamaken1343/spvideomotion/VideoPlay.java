@@ -1,6 +1,9 @@
 package yamaken1343.spvideomotion;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,8 +12,10 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -34,8 +39,6 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
     private float[] gyroValue = new float[3];
 
     boolean fileOpened = false;
-    private String filepath = "/test.txt";
-    private String fullFilepath;
     BufferedWriter bw;
     FileOutputStream fos;
 
@@ -57,9 +60,12 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
 
         Intent intent = getIntent();
         String videoFqdn = intent.getStringExtra(MainActivity.VIDEOFQDN);
+        String videoID = intent.getStringExtra(MainActivity.VIDEOID);
+        String userName = intent.getStringExtra(MainActivity.USERNAME);
+
         videoView = findViewById(R.id.videoView);
         videoView.setVideoURI(Uri.parse(videoFqdn));
-        videoView.setMediaController(new MediaController(this));
+//        videoView.setMediaController(new MediaController(this));
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -80,7 +86,14 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         gyroscope = sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-        fullFilepath = Environment.getExternalStorageDirectory().getPath() + filepath;
+
+        String dirFilepath = Environment.getExternalStorageDirectory().getPath() + "/SPVM/" + userName;
+
+        File dir = new File(dirFilepath);
+        boolean makedir = dir.mkdirs();
+
+        String fullFilepath;
+        fullFilepath = dirFilepath + "/" + videoID + ".csv";
         File file = new File(fullFilepath);
 
         try {
