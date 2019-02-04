@@ -40,6 +40,9 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
     FileOutputStream fos;
 
     int isTouch;
+    boolean isPlay = false;
+    boolean isGetAcc = false;
+    boolean isGetGyro = false;
 
 
     @Override
@@ -69,6 +72,7 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
             public void onPrepared(MediaPlayer mp) {
                 videoView.seekTo(0);
                 videoView.start();
+                isPlay = true;
             }
         });
 
@@ -96,13 +100,18 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             accValue = event.values.clone();
+            isGetAcc = true;
         } else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
             gyroValue = event.values.clone();
+            isGetGyro = true;
         }
-        if (fileOpened) {  // TODO: ビデオ再生したら開始
+        if (fileOpened && isPlay && isGetAcc && isGetGyro) {
             try {
-                bw.write(String.format(Locale.ENGLISH, "%d, %f, %f, %f, %f, %f, %f, %d\n", System.currentTimeMillis(), accValue[0], accValue[1], accValue[2], gyroValue[0], gyroValue[1], gyroValue[2], isTouch));
+                bw.write(String.format(Locale.ENGLISH, "%d, %f, %f, %f, %f, %f, %f, %d\n",
+                        System.currentTimeMillis(), accValue[0], accValue[1], accValue[2], gyroValue[0], gyroValue[1], gyroValue[2], isTouch));
                 bw.flush();
+                isGetAcc = false;
+                isGetGyro = false;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -134,6 +143,7 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
         }
         fileOpened = false;
         videoView.stopPlayback();
+        isPlay = false;
     }
 
     @Override
