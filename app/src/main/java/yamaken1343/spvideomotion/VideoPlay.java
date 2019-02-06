@@ -97,7 +97,7 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
         File file = new File(fullFilepath);
 
         try {
-            fos = new FileOutputStream(file, true);
+            fos = new FileOutputStream(file, false);
             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             bw = new BufferedWriter(osw);
             fileOpened = true;
