@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".VideoPlay"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_video_play"
             android:parentActivityName=".MainActivity"

@@ -139,8 +139,8 @@ public class VideoPlay extends AppCompatActivity implements SensorEventListener 
     @Override
     protected void onResume() {
         super.onResume();
-        sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sm.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+        sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        sm.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
